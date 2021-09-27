@@ -1,28 +1,66 @@
+//используемый источник: https://learn.javascript.ru/number#tasks
+
+// Если значение «до» равно значению «от», выведем это значение, так как других чисел в таком диапазоне быть не может
+
+// Если значение «до» меньшее, чем значение «от», выведем число, находящееся между этими значениями. Для этого поменяем местами min и max
+
+const ERROR_MESSAGE = 'Введено отрицательное значение, функция не может быть выполнена';
+
 function checkPositive(num) {
   return (num >= 0);
 }
 
-function getRandom(min, max, decimalPlaces) {
+function checkEquality(min, max) {
+  return (min === max);
+}
 
-  if (!checkPositive(min) || !checkPositive(max) || !checkPositive(decimalPlaces)) {
-    return 'Введено отрицательное значение, функция не может быть выполнена';
+function changeNumbers(min, max) {
+  return {
+    minNumber: max,
+    maxNumber: min,
+  };
+}
+
+function getRandom(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function getIntNumber(min, max) {
+  if (!checkPositive(min) || !checkPositive(max)) {
+    return ERROR_MESSAGE;
   }
 
-  // Если значение «до» равно значению «от», выведем это значение,
-  // так как других чисел в таком диапазоне быть не может
-  if (min === max) {
+  if (checkEquality(min, max)) {
+    return min;
+  }
+
+  if (min > max) {
+    const SWAP = changeNumbers(min, max);
+    min = SWAP.minNumber;
+    max = SWAP.maxNumber;
+  }
+
+  return Math.floor(getRandom(min, max+1));
+}
+
+function getFloatNumber(min, max, decimalPlaces) {
+
+  if (!checkPositive(min) || !checkPositive(max) || !checkPositive(decimalPlaces)) {
+    return ERROR_MESSAGE;
+  }
+
+  if (checkEquality(min, max)) {
     return min.toFixed(decimalPlaces);
   }
 
-  // Если значение «до» меньшее, чем значение «от», выведем число, находящееся между этими значениями
-  // Для этого поменяем местами min и max
   if (min > max) {
-    const swaper = min;
-    min = max;
-    max = swaper;
+    const SWAP = changeNumbers(min, max);
+    min = SWAP.minNumber;
+    max = SWAP.maxNumber;
   }
 
-  return (min + Math.random() * (max - min)).toFixed(decimalPlaces);
+  return (getRandom(min, max)).toFixed(decimalPlaces);
 }
 
-getRandom();
+getIntNumber();
+getFloatNumber();
