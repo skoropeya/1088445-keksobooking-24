@@ -43,7 +43,7 @@ function getIntNumber(min, max) {
   return Math.floor(getRandom(min, max+1));
 }
 
-function getFloatNumber(min, max, decimalPlaces) {
+function getFloatNumber(min, max, decimalPlaces = 0) {
 
   if (!checkPositive(min) || !checkPositive(max) || !checkPositive(decimalPlaces)) {
     return ERROR_MESSAGE;
