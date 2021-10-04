@@ -2,15 +2,11 @@
 // Если значение «до» равно значению «от», выведем это значение, так как других чисел в таком диапазоне быть не может
 // Если значение «до» меньшее, чем значение «от», выведем число, находящееся между этими значениями. Для этого поменяем местами min и max
 
-function checkEquality(min, max) {
-  return (min === max);
-}
+const checkEquality = (min, max) => (min === max);
 
-function getRandom(min, max) {
-  return min + Math.random() * (max - min);
-}
+const getRandom = (min, max) => (min + Math.random() * (max - min));
 
-function getRandomInteger(min, max) {
+const getRandomInteger = (min, max) => {
   let [minNumber, maxNumber] = [Math.abs(min), Math.abs(max)];
 
   if (checkEquality(minNumber, maxNumber)) {
@@ -22,10 +18,11 @@ function getRandomInteger(min, max) {
   }
 
   return Math.floor(getRandom(minNumber, maxNumber+1));
-}
+};
 
-function getRandomFloat(min, max, decimalPlaces = 0) {
-  let [minNumber, maxNumber, decimalPlacesNumber] = [Math.abs(min), Math.abs(max), Math.abs(decimalPlaces)];
+const getRandomFloat = (min, max, decimalPlaces = 0) => {
+  let [minNumber, maxNumber] = [Math.abs(min), Math.abs(max)];
+  const decimalPlacesNumber = Math.abs(decimalPlaces);
 
   if (checkEquality(minNumber, maxNumber)) {
     return Number(minNumber.toFixed(decimalPlacesNumber));
@@ -36,54 +33,51 @@ function getRandomFloat(min, max, decimalPlaces = 0) {
   }
 
   return parseFloat(getRandom(minNumber, maxNumber).toFixed(decimalPlacesNumber));
-}
+};
 
-// формирует массив со ссылками на аватары пользователей
-const createAvatar = () => {
-  const avatars = [];
-  for (let i=1; i<=10; i++) {
-    if (i<10) {
-      avatars.push('img/avatars/user0' + i + '.png');
-    } else {
-      avatars.push('img/avatars/user' + i + '.png');
-    }
-  }
-  return avatars;
-}
-
-const authorPhotos = createAvatar();
-
-// формирует случайную строку заданной длины из случайных символов алфавита
-// взято отсюда: https://question-it.com/questions/1521255/generatsija-sluchajnoj-stroki-simvolov-v-javascript
 const ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя ';
-
-const getRandomSymbol = () => {
-  return ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-}
-
-const getRandomString = (stringMinLength, stringMaxLength) => {
-  const stringLength = getRandomInteger(stringMinLength, stringMaxLength);
-  return Array.from({ length: stringLength }, getRandomSymbol).join('');
-}
-
 const TYPES_LIST = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECK_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS_LIST = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
+const NOTICES_COUNT = 10;
+
+// формирует массив со ссылками на аватары пользователей
+const createAvatar = () => {
+  const avatars = [];
+  for (let id = 1; id <= 10; id++) {
+    if (id < 10) {
+      avatars.push(`img/avatars/user0${  id  }.png`);
+    } else {
+      avatars.push(`img/avatars/user${  id  }.png`);
+    }
+  }
+  return avatars;
+};
+
+const authorPhotos = createAvatar();
+
+// формирует случайную строку заданной длины из случайных символов алфавита
+// взято отсюда: https://question-it.com/questions/1521255/generatsija-sluchajnoj-stroki-simvolov-v-javascript
+const getRandomSymbol = () => ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+
+const getRandomString = (stringMinLength, stringMaxLength) => {
+  const stringLength = getRandomInteger(stringMinLength, stringMaxLength);
+  return Array.from({ length: stringLength }, getRandomSymbol).join('');
+};
 
 // выбирает случаный элемент массива
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomInteger(0, elements.length - 1)];
-};
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
 
 // формирует массив из случайных элементов другого массива
 const getRandomArray = (elements) => {
   const quantityElements = getRandomInteger(1, elements.length - 1);
-  let newArray = [];
+  const newArray = [];
   let newElement;
   while (newArray.length < quantityElements) {
     newElement = getRandomArrayElement(elements);
@@ -92,7 +86,7 @@ const getRandomArray = (elements) => {
     }
   }
   return newArray;
-}
+};
 
 
 // создает объект с данными объявления
@@ -106,7 +100,7 @@ const createNotice = () => {
     },
     offer: {
       title: getRandomString(30, 100),
-      address: lat + ', ' + lng,
+      address: `${lat  }, ${  lng}`,
       price: getRandomInteger(0, 1000000),
       type: getRandomArrayElement(TYPES_LIST),
       rooms: getRandomInteger(0, 10),
@@ -124,4 +118,5 @@ const createNotice = () => {
   };
 };
 
-const Notices = Array.from({length: 10}, createNotice);
+const Notices = Array.from({length: NOTICES_COUNT}, createNotice);
+Notices();
