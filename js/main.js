@@ -1,21 +1,9 @@
 //используемый источник: https://learn.javascript.ru/number#tasks
-
 // Если значение «до» равно значению «от», выведем это значение, так как других чисел в таком диапазоне быть не может
-
 // Если значение «до» меньшее, чем значение «от», выведем число, находящееся между этими значениями. Для этого поменяем местами min и max
-
-const ERROR_MESSAGE = 'Введено отрицательное значение, функция не может быть выполнена';
-
-function checkPositive(num) {
-  return (num >= 0);
-}
 
 function checkEquality(min, max) {
   return (min === max);
-}
-
-function swapNumbers(min, max) {
-  return [max, min];
 }
 
 function getRandom(min, max) {
@@ -23,41 +11,117 @@ function getRandom(min, max) {
 }
 
 function getRandomInteger(min, max) {
-  if (!checkPositive(min) || !checkPositive(max)) {
-    throw ERROR_MESSAGE;
+  let [minNumber, maxNumber] = [Math.abs(min), Math.abs(max)];
+
+  if (checkEquality(minNumber, maxNumber)) {
+    return minNumber;
   }
 
-  if (checkEquality(min, max)) {
-    return min;
-  }
-
-  let [minNumber, maxNumber] = [min, max];
-
-  if (min > max) {
-    [minNumber, maxNumber] = swapNumbers(min, max);
+  if (minNumber > maxNumber) {
+    [minNumber, maxNumber] = [maxNumber, minNumber];
   }
 
   return Math.floor(getRandom(minNumber, maxNumber+1));
 }
 
 function getRandomFloat(min, max, decimalPlaces = 0) {
+  let [minNumber, maxNumber, decimalPlacesNumber] = [Math.abs(min), Math.abs(max), Math.abs(decimalPlaces)];
 
-  if (!checkPositive(min) || !checkPositive(max) || !checkPositive(decimalPlaces)) {
-    throw ERROR_MESSAGE;
+  if (checkEquality(minNumber, maxNumber)) {
+    return Number(minNumber.toFixed(decimalPlacesNumber));
   }
 
-  if (checkEquality(min, max)) {
-    return Number(min.toFixed(decimalPlaces));
+  if (minNumber > maxNumber) {
+    [minNumber, maxNumber] = [maxNumber, minNumber];
   }
 
-  let [minNumber, maxNumber] = [min, max];
-
-  if (min > max) {
-    [minNumber, maxNumber] = swapNumbers(min, max);
-  }
-
-  return parseFloat(getRandom(minNumber, maxNumber).toFixed(decimalPlaces));
+  return parseFloat(getRandom(minNumber, maxNumber).toFixed(decimalPlacesNumber));
 }
 
-getRandomInteger();
-getRandomFloat();
+// формирует массив со ссылками на аватары пользователей
+const createAvatar = () => {
+  const avatars = [];
+  for (let i=1; i<=10; i++) {
+    if (i<10) {
+      avatars.push('img/avatars/user0' + i + '.png');
+    } else {
+      avatars.push('img/avatars/user' + i + '.png');
+    }
+  }
+  return avatars;
+}
+
+const authorPhotos = createAvatar();
+
+// формирует случайную строку заданной длины из случайных символов алфавита
+// взято отсюда: https://question-it.com/questions/1521255/generatsija-sluchajnoj-stroki-simvolov-v-javascript
+const ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя ';
+
+const getRandomSymbol = () => {
+  return ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+}
+
+const getRandomString = (stringMinLength, stringMaxLength) => {
+  const stringLength = getRandomInteger(stringMinLength, stringMaxLength);
+  return Array.from({ length: stringLength }, getRandomSymbol).join('');
+}
+
+const TYPES_LIST = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const CHECK_TIME = ['12:00', '13:00', '14:00'];
+const FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const PHOTOS_LIST = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
+
+// выбирает случаный элемент массива
+const getRandomArrayElement = (elements) => {
+  return elements[getRandomInteger(0, elements.length - 1)];
+};
+
+// формирует массив из случайных элементов другого массива
+const getRandomArray = (elements) => {
+  const quantityElements = getRandomInteger(1, elements.length - 1);
+  let newArray = [];
+  let newElement;
+  while (newArray.length < quantityElements) {
+    newElement = getRandomArrayElement(elements);
+    if (!newArray.includes(newElement)) {
+      newArray.push(newElement);
+    }
+  }
+  return newArray;
+}
+
+
+// создает объект с данными объявления
+const createNotice = () => {
+  const lat = getRandomFloat(35.65, 35.7, 5);
+  const lng = getRandomFloat(139.7, 139.8, 5);
+
+  return {
+    author: {
+      avatar: getRandomArrayElement(authorPhotos),
+    },
+    offer: {
+      title: getRandomString(30, 100),
+      address: lat + ', ' + lng,
+      price: getRandomInteger(0, 1000000),
+      type: getRandomArrayElement(TYPES_LIST),
+      rooms: getRandomInteger(0, 10),
+      guests: getRandomInteger(0, 10),
+      checkin: getRandomArrayElement(CHECK_TIME),
+      checkout: getRandomArrayElement(CHECK_TIME),
+      features: getRandomArray(FEATURES_LIST),
+      description: getRandomString(30, 100),
+      photos: getRandomArray(PHOTOS_LIST),
+    },
+    location: {
+      lat: lat,
+      lng: lng,
+    },
+  };
+};
+
+const Notices = Array.from({length: 10}, createNotice);
