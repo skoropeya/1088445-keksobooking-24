@@ -14,53 +14,50 @@ function checkEquality(min, max) {
   return (min === max);
 }
 
-function changeNumbers(min, max) {
-  return {
-    minNumber: max,
-    maxNumber: min,
-  };
+function swapNumbers(min, max) {
+  return [max, min];
 }
 
 function getRandom(min, max) {
   return min + Math.random() * (max - min);
 }
 
-function getIntNumber(min, max) {
+function getRandomInteger(min, max) {
   if (!checkPositive(min) || !checkPositive(max)) {
-    return ERROR_MESSAGE;
+    throw ERROR_MESSAGE;
   }
 
   if (checkEquality(min, max)) {
     return min;
   }
 
+  let [minNumber, maxNumber] = [min, max];
+
   if (min > max) {
-    const SWAP = changeNumbers(min, max);
-    min = SWAP.minNumber;
-    max = SWAP.maxNumber;
+    [minNumber, maxNumber] = swapNumbers(min, max);
   }
 
-  return Math.floor(getRandom(min, max+1));
+  return Math.floor(getRandom(minNumber, maxNumber+1));
 }
 
-function getFloatNumber(min, max, decimalPlaces = 0) {
+function getRandomFloat(min, max, decimalPlaces = 0) {
 
   if (!checkPositive(min) || !checkPositive(max) || !checkPositive(decimalPlaces)) {
-    return ERROR_MESSAGE;
+    throw ERROR_MESSAGE;
   }
 
   if (checkEquality(min, max)) {
-    return min.toFixed(decimalPlaces);
+    return Number(min.toFixed(decimalPlaces));
   }
+
+  let [minNumber, maxNumber] = [min, max];
 
   if (min > max) {
-    const SWAP = changeNumbers(min, max);
-    min = SWAP.minNumber;
-    max = SWAP.maxNumber;
+    [minNumber, maxNumber] = swapNumbers(min, max);
   }
 
-  return (getRandom(min, max)).toFixed(decimalPlaces);
+  return Number(getRandom(minNumber, maxNumber)).toFixed(decimalPlaces);
 }
 
-getIntNumber();
-getFloatNumber();
+getRandomInteger();
+getRandomFloat();
