@@ -56,7 +56,7 @@ function getRandomFloat(min, max, decimalPlaces = 0) {
     [minNumber, maxNumber] = swapNumbers(min, max);
   }
 
-  return Number(getRandom(minNumber, maxNumber)).toFixed(decimalPlaces);
+  return parseFloat(getRandom(minNumber, maxNumber).toFixed(decimalPlaces));
 }
 
 getRandomInteger();
