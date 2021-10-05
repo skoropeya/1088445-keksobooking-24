@@ -44,16 +44,16 @@ const PHOTOS_LIST = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const NOTICES_COUNT = 10;
+const OFFERS_COUNT = 10;
 
 // формирует массив со ссылками на аватары пользователей
 const createAvatar = () => {
   const avatars = [];
-  for (let id = 1; id <= 10; id++) {
-    if (id < 10) {
-      avatars.push(`img/avatars/user0${  id  }.png`);
+  for (let i = 1; i <= 10; i++) {
+    if (i < 10) {
+      avatars.push(`img/avatars/user0${  i  }.png`);
     } else {
-      avatars.push(`img/avatars/user${  id  }.png`);
+      avatars.push(`img/avatars/user${  i  }.png`);
     }
   }
   return avatars;
@@ -90,7 +90,7 @@ const getRandomArray = (elements) => {
 
 
 // создает объект с данными объявления
-const createNotice = () => {
+const createOffer = () => {
   const lat = getRandomFloat(35.65, 35.7, 5);
   const lng = getRandomFloat(139.7, 139.8, 5);
 
@@ -118,5 +118,5 @@ const createNotice = () => {
   };
 };
 
-const Notices = Array.from({length: NOTICES_COUNT}, createNotice);
-Notices();
+const offers = Array.from({length: OFFERS_COUNT}, createOffer);
+offers;
