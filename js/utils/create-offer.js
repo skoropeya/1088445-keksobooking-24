@@ -9,11 +9,16 @@ const PHOTOS_LIST = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
+const LATITUDE_MIN = 35.65;
+const LATITUDE_MAX = 35.7;
+const LONGITUDE_MIN = 139.7;
+const LONGITUDE_MAX = 139.8;
+const DIGITS = 5;
 
 // создает объект с данными объявления
 const createOffer = () => {
-  const lat = getRandomFloat(35.65, 35.7, 5);
-  const lng = getRandomFloat(139.7, 139.8, 5);
+  const lat = getRandomFloat(LATITUDE_MIN, LATITUDE_MAX, DIGITS);
+  const lng = getRandomFloat(LONGITUDE_MIN, LONGITUDE_MAX, DIGITS);
 
   return {
     author: {
