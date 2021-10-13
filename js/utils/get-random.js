@@ -51,7 +51,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 // формирует массив из случайных элементов другого массива
 const getRandomArray = (elements) => {
-  const quantityElements = getRandomInteger(1, elements.length - 1);
+  const quantityElements = getRandomInteger(1, elements.length);
   const newArray = [];
   let newElement;
   while (newArray.length < quantityElements) {
