@@ -34,41 +34,40 @@ offers.forEach((offerItem) => {
   offerItem.offer.price ? price.textContent =  `${offerItem.offer.price  } ₽/ночь` : price.classList.add('hidden');
   offerItem.offer.type ? type.textContent =  TYPES[offerItem.offer.type] : type.classList.add('hidden');
   offerItem.offer.description ? description.textContent = offerItem.offer.description : description.classList.add('hidden');
-  (offerItem.offer.rooms & offerItem.offer.guests) ? capacity.textContent = `${offerItem.offer.rooms} комнаты для ${offerItem.offer.guests} гостей` : capacity.classList.add('hidden');
-  (offerItem.offer.checkin & offerItem.offer.checkout) ? time.textContent = `${offerItem.offer.checkin} комнаты для ${offerItem.offer.checkout} гостей` : time.classList.add('hidden');
+  (offerItem.offer.rooms && offerItem.offer.guests) ? capacity.textContent = `${offerItem.offer.rooms} комнаты для ${offerItem.offer.guests} гостей` : capacity.classList.add('hidden');
+  (offerItem.offer.checkin && offerItem.offer.checkout) ? time.textContent = `Заезд после ${offerItem.offer.checkin}, выезд до ${offerItem.offer.checkout}` : time.classList.add('hidden');
 
-  const featuresArray = offerItem.offer.features;
-  if (featuresArray.length === 0) {
-    featuresList.classList.add('hidden');
-  } else {
-    const futuresFragment = document.createDocumentFragment();
+  const features = offerItem.offer.features;
+  if (features.length) {
+    const featuresFragment = document.createDocumentFragment();
 
-    featuresArray.forEach((future) => {
-      const futureItem = featuresList.querySelector(`.popup__feature--${future}`);
-      if (futureItem) {
-        futuresFragment.appendChild(futureItem);
+    features.forEach((feature) => {
+      const featureItem = featuresList.querySelector(`.popup__feature--${feature}`);
+      if (featureItem) {
+        featuresFragment.appendChild(featureItem);
       }
     });
     featuresList.innerHTML = '';
-    featuresList.appendChild(futuresFragment);
+    featuresList.appendChild(featuresFragment);
+  } else {
+    featuresList.classList.add('hidden');
   }
 
-  const photosArray = offerItem.offer.photos;
-  if (photosArray.length === 0) {
-    photosList.classList.add('hidden');
-  } else {
+  const photos = offerItem.offer.photos;
+  if (photos.length) {
     const photoTemplate = photosList.querySelector('.popup__photo');
     photosList.innerHTML = '';
-    photosArray.forEach((photo) => {
+    photos.forEach((photo) => {
       const photoItem = photoTemplate.cloneNode(false);
       photoItem.src = photo;
       photosList.appendChild(photoItem);
     });
+  } else {
+    photosList.classList.add('hidden');
   }
 
   offerFragment.appendChild(offerElement);
 });
-
 
 const canvas = document.querySelector('#map-canvas');
 // canvas.style.height = 'auto';
