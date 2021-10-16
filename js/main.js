@@ -1,3 +1,3 @@
 import './map.js';
-import './form-notice.js';
+import './forms.js';
 import './generate-elements.js';
