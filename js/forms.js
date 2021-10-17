@@ -3,24 +3,11 @@ const formNotice = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
 
 const findInteractiveElements = (form) => {
-  const allInput = form.querySelectorAll('input');
-  const allSelect = form.querySelectorAll('select');
-  const allTextarea = form.querySelectorAll('textarea');
-  const allButton = form.querySelectorAll('button');
-  const allInteractiveElements = [];
-
-  allInput.forEach((element) => {
-    allInteractiveElements.push(element);
-  });
-  allSelect.forEach((element) => {
-    allInteractiveElements.push(element);
-  });
-  allTextarea.forEach((element) => {
-    allInteractiveElements.push(element);
-  });
-  allButton.forEach((element) => {
-    allInteractiveElements.push(element);
-  });
+  const allInputs = form.querySelectorAll('input');
+  const allSelects = form.querySelectorAll('select');
+  const allTextareas = form.querySelectorAll('textarea');
+  const allButtons = form.querySelectorAll('button');
+  const allInteractiveElements = [...allInputs, ...allSelects, ...allTextareas, ...allButtons];
 
   return allInteractiveElements;
 };
