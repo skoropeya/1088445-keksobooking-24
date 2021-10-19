@@ -5,6 +5,8 @@ const type = formNotice.querySelector('#type');
 const price = formNotice.querySelector('#price');
 const roomNumber = formNotice.querySelector('#room_number');
 const capacityValues = formNotice.querySelectorAll('#capacity option');
+const timeIn = formNotice.querySelector('#timein');
+const timeOut = formNotice.querySelector('#timeout');
 
 const MIN_PRICE = {
   'palace': 10000,
@@ -44,6 +46,14 @@ const onRoomsChange = () => {
   });
 };
 
+const onTimeInChange = () => {
+  timeOut.value = timeIn.value;
+};
+
+const onTimeOutChange = () => {
+  timeIn.value = timeOut.value;
+};
+
 const findInteractiveElements = (form) => {
   const allInputs = form.querySelectorAll('input');
   const allSelects = form.querySelectorAll('select');
@@ -67,6 +77,8 @@ const makeFormActive = (form) => {
   if (form.classList.contains('ad-form')) {
     type.addEventListener('change', onTypeChange);
     roomNumber.addEventListener('change', onRoomsChange);
+    timeIn.addEventListener('change', onTimeInChange);
+    timeOut.addEventListener('change', onTimeOutChange);
   }
 };
 
@@ -83,6 +95,8 @@ const makeFormDisabled = (form) => {
   if (form.classList.contains('ad-form')) {
     type.removeEventListener('change', onTypeChange);
     roomNumber.removeEventListener('change', onRoomsChange);
+    timeIn.removeEventListener('change', onTimeInChange);
+    timeOut.removeEventListener('change', onTimeOutChange);
   }
 };
 
