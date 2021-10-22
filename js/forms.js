@@ -30,14 +30,14 @@ const onTypeChange = () => {
 };
 
 const onRoomsChange = () => {
-  const allowableCapacity = ROOM_CAPACITY[roomNumber.value];
+  const allowedCapacity = ROOM_CAPACITY[roomNumber.value];
   capacityValues.forEach((element) => {
     element.setAttribute('disabled', true);
     element.removeAttribute('selected');
   });
 
   capacityValues.forEach((element) => {
-    allowableCapacity.forEach((rooms) => {
+    allowedCapacity.forEach((rooms) => {
       if (+element.value === rooms) {
         element.removeAttribute('disabled');
         element.setAttribute('selected', true);
