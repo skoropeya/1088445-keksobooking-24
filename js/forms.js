@@ -50,20 +50,24 @@ const checkRoomsCapaciity = (rooms, capacities) => {
   return {isValidityFields, message};
 };
 
-const onFormSubmit = (evt) => {
+const onRoomsCapacityChange = () => {
   const roomValue = +roomNumber.value;
   const capacityValue = +capacity.value;
   const {isValidityFields, message} = checkRoomsCapaciity(roomValue, capacityValue);
 
-
   if (!isValidityFields) {
-    evt.preventDefault();
     roomNumber.setCustomValidity(message);
   } else {
     roomNumber.setCustomValidity('');
   }
+  return isValidityFields;
 };
 
+const onFormSubmit = (evt) => {
+  if (!onRoomsCapacityChange()) {
+    evt.preventDefault();
+  }
+};
 
 const onTimeInChange = () => {
   timeOut.value = timeIn.value;
@@ -98,6 +102,8 @@ const makeFormActive = (form) => {
     formNotice.addEventListener('submit', onFormSubmit);
     timeIn.addEventListener('change', onTimeInChange);
     timeOut.addEventListener('change', onTimeOutChange);
+    roomNumber.addEventListener('change', onRoomsCapacityChange);
+    capacity.addEventListener('change', onRoomsCapacityChange);
   }
 };
 
@@ -116,6 +122,8 @@ const makeFormDisabled = (form) => {
     formNotice.removeEventListener('submit', onFormSubmit);
     timeIn.removeEventListener('change', onTimeInChange);
     timeOut.removeEventListener('change', onTimeOutChange);
+    roomNumber.removeEventListener('change', onRoomsCapacityChange);
+    capacity.removeEventListener('change', onRoomsCapacityChange);
   }
 };
 
