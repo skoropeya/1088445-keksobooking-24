@@ -28,11 +28,11 @@ const onTypeChange = () => {
   price.placeholder = minPrice;
 };
 
-const checkRoomsCapaciity = (rooms, capacities) => {
+const checkRoomsCapacity = (rooms, capacities) => {
   const allowedCapacity = ROOM_CAPACITY[rooms];
-  const isValidityFields = allowedCapacity.includes(capacities);
+  const isValidFields = allowedCapacity.includes(capacities);
   let message = '';
-  if (!isValidityFields) {
+  if (!isValidFields) {
     switch (rooms) {
       case 1:
         message = '1 комната предназначена только для 1 гостя';
@@ -45,22 +45,21 @@ const checkRoomsCapaciity = (rooms, capacities) => {
         break;
       case 100:
         message = '100 комнат не для гостей';
+        break;
+      default:
+        message = 'Произошла ошибка';
     }
   }
-  return {isValidityFields, message};
+  return {isValidFields, message};
 };
 
 const onRoomsCapacityChange = () => {
   const roomValue = +roomNumber.value;
   const capacityValue = +capacity.value;
-  const {isValidityFields, message} = checkRoomsCapaciity(roomValue, capacityValue);
+  const {isValidFields, message} = checkRoomsCapacity(roomValue, capacityValue);
+  roomNumber.setCustomValidity(message);
 
-  if (!isValidityFields) {
-    roomNumber.setCustomValidity(message);
-  } else {
-    roomNumber.setCustomValidity('');
-  }
-  return isValidityFields;
+  return isValidFields;
 };
 
 const onFormSubmit = (evt) => {
