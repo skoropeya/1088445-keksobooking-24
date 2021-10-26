@@ -69,7 +69,5 @@ offers.forEach((offerItem) => {
   offerFragment.appendChild(offerElement);
 });
 
-const canvas = document.querySelector('#map-canvas');
-// canvas.style.height = 'auto';
-// canvas.appendChild(offerFragment);
-canvas.appendChild(offerFragment.children[0]);
+// const canvas = document.querySelector('#map-canvas');
+// canvas.appendChild(offerFragment.children[0]);
