@@ -1,5 +1,4 @@
 const formNotice = document.querySelector('.ad-form');
-const formFilters = document.querySelector('.map__filters');
 const type = formNotice.querySelector('#type');
 const price = formNotice.querySelector('#price');
 const roomNumber = formNotice.querySelector('#room_number');
@@ -126,7 +125,4 @@ const makeFormDisabled = (form) => {
   }
 };
 
-makeFormDisabled(formNotice);
-makeFormDisabled(formFilters);
-makeFormActive(formNotice);
-makeFormActive(formFilters);
+export {makeFormActive, makeFormDisabled};
