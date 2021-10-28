@@ -7,6 +7,5 @@ const formFilters = document.querySelector('.map__filters');
 document.addEventListener('DOMContentLoaded', () => {
   makeFormDisabled(formNotice);
   makeFormDisabled(formFilters);
+  drawMap();
 });
-
-drawMap();

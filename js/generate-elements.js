@@ -11,7 +11,7 @@ const TYPES = {
 };
 
 const offers = Array.from({length: OFFERS_COUNT}, createOffer);
-const templateCard = document.querySelector('#card').content;
+const templateCard = document.querySelector('#card').content.querySelector('.popup');
 
 const createOfferElement = (offerItem) => {
   const offerElement = templateCard.cloneNode(true);
