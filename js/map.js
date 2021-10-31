@@ -7,7 +7,9 @@ const SCALE = 12;
 
 const address = formNotice.querySelector('#address');
 
-const map = L.map('map-canvas');
+const map = L.map('map-canvas').on('load', () => {
+  makeFormActive(formNotice);
+});
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -29,11 +31,19 @@ const mainPinMarker = L.marker(
   {
     draggable: true,
     icon: mainPinIcon,
-  },
-);
+  })
+  .on('move', (evt) => {
+    const {lat, lng} = evt.target.getLatLng();
+    address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  });
 
 const setStartAddress = () => {
   address.value = `${START_LAT.toFixed(5)}, ${START_LNG.toFixed(5)}`;
+
+  map.setView({
+    lat: START_LAT,
+    lng: START_LNG,
+  }, SCALE);
 };
 
 const setMainPinMarker = () => {
@@ -44,13 +54,10 @@ const setMainPinMarker = () => {
 };
 
 const drawMap = () => {
-  map.on('load', () => {
-    makeFormActive(formNotice);
-  })
-    .setView({
-      lat: START_LAT,
-      lng: START_LNG,
-    }, SCALE);
+  map.setView({
+    lat: START_LAT,
+    lng: START_LNG,
+  }, SCALE);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -62,11 +69,6 @@ const drawMap = () => {
   setStartAddress();
 
   mainPinMarker.addTo(map);
-
-  mainPinMarker.on('move', (evt) => {
-    const {lat, lng} = evt.target.getLatLng();
-    address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  });
 };
 
 const drawOffers = (offers) => {
