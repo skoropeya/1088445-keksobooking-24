@@ -1,22 +1,52 @@
-import {makeFormActive} from './forms.js';
-import {offers, createOfferElement} from './generate-elements.js';
+import {formNotice, makeFormActive} from './forms.js';
+import {createOfferElement} from './generate-elements.js';
 
-const formNotice = document.querySelector('.ad-form');
-const address = formNotice.querySelector('#address');
-
-// Начальная точка
 const START_LAT = 35.67;
 const START_LNG = 139.75;
-
 const SCALE = 12;
 
-const drawMap = () => {
-  address.value = `${START_LAT.toFixed(5)}, ${START_LNG.toFixed(5)}`;
+const address = formNotice.querySelector('#address');
 
-  const map = L.map('map-canvas')
-    .on('load', () => {
-      makeFormActive(formNotice);
-    })
+const map = L.map('map-canvas');
+
+const mainPinIcon = L.icon({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const pinIcon = L.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const mainPinMarker = L.marker(
+  {
+    lat: START_LAT,
+    lng: START_LNG,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
+const setStartAddress = () => {
+  address.value = `${START_LAT.toFixed(5)}, ${START_LNG.toFixed(5)}`;
+};
+
+const setMainPinMarker = () => {
+  mainPinMarker.setLatLng({
+    lat: START_LAT,
+    lng: START_LNG,
+  });
+};
+
+const drawMap = () => {
+  map.on('load', () => {
+    makeFormActive(formNotice);
+  })
     .setView({
       lat: START_LAT,
       lng: START_LNG,
@@ -29,28 +59,7 @@ const drawMap = () => {
     },
   ).addTo(map);
 
-  const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
-  });
-
-  const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const mainPinMarker = L.marker(
-    {
-      lat: START_LAT,
-      lng: START_LNG,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
+  setStartAddress();
 
   mainPinMarker.addTo(map);
 
@@ -58,7 +67,9 @@ const drawMap = () => {
     const {lat, lng} = evt.target.getLatLng();
     address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   });
+};
 
+const drawOffers = (offers) => {
   offers.forEach((offerItem) => {
     const offerLat = offerItem.location.lat;
     const offerLng = offerItem.location.lng;
@@ -76,4 +87,4 @@ const drawMap = () => {
   });
 };
 
-export {drawMap};
+export {drawMap, drawOffers, setMainPinMarker, setStartAddress};

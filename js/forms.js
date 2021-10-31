@@ -1,3 +1,7 @@
+import {showPopup} from './utils.js';
+import {sendData} from './api.js';
+import {setMainPinMarker, setStartAddress} from './map.js';
+
 const formNotice = document.querySelector('.ad-form');
 const type = formNotice.querySelector('#type');
 const price = formNotice.querySelector('#price');
@@ -5,6 +9,7 @@ const roomNumber = formNotice.querySelector('#room_number');
 const capacity = formNotice.querySelector('#capacity');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
+const clearButton = formNotice.querySelector('.ad-form__reset');
 
 const MIN_PRICE = {
   'palace': 10000,
@@ -25,6 +30,14 @@ const onTypeChange = () => {
   const minPrice = MIN_PRICE[type.value];
   price.min = minPrice;
   price.placeholder = minPrice;
+};
+
+const onTimeInChange = () => {
+  timeOut.value = timeIn.value;
+};
+
+const onTimeOutChange = () => {
+  timeIn.value = timeOut.value;
 };
 
 const checkRoomsCapacity = (rooms, capacities) => {
@@ -61,18 +74,30 @@ const onRoomsCapacityChange = () => {
   return isValidFields;
 };
 
+const onClearForm = () => {
+  formNotice.reset();
+  setStartAddress();
+  setMainPinMarker();
+};
+
+const onclearButtonClick = (evt) => {
+  evt.preventDefault();
+  onClearForm();
+};
+
 const onFormSubmit = (evt) => {
-  if (!onRoomsCapacityChange()) {
-    evt.preventDefault();
-  }
-};
+  evt.preventDefault();
 
-const onTimeInChange = () => {
-  timeOut.value = timeIn.value;
-};
+  sendData(
+    () => {
+      showPopup('success');
+      onClearForm();
+    },
 
-const onTimeOutChange = () => {
-  timeIn.value = timeOut.value;
+    () => showPopup('error'),
+
+    new FormData(evt.target),
+  );
 };
 
 const findInteractiveElements = (form) => {
@@ -102,6 +127,7 @@ const makeFormActive = (form) => {
     timeOut.addEventListener('change', onTimeOutChange);
     roomNumber.addEventListener('change', onRoomsCapacityChange);
     capacity.addEventListener('change', onRoomsCapacityChange);
+    clearButton.addEventListener('click', onclearButtonClick);
   }
 };
 
@@ -122,7 +148,8 @@ const makeFormDisabled = (form) => {
     timeOut.removeEventListener('change', onTimeOutChange);
     roomNumber.removeEventListener('change', onRoomsCapacityChange);
     capacity.removeEventListener('change', onRoomsCapacityChange);
+    clearButton.removeEventListener('click', onclearButtonClick);
   }
 };
 
-export {makeFormActive, makeFormDisabled};
+export {formNotice, makeFormActive, makeFormDisabled};
