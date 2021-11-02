@@ -1,6 +1,6 @@
 import {showPopup} from './utils.js';
 import {sendData} from './api.js';
-import {setMainPinMarker, setStartAddress} from './map.js';
+import {setMainPinMarker, setStartAddress, drawOffers} from './map.js';
 import {setHandlers, removeHandlers} from './validate-form.js';
 
 const formNotice = document.querySelector('.ad-form');
@@ -12,6 +12,7 @@ const onClearForm = () => {
   formFilters.reset();
   setStartAddress();
   setMainPinMarker();
+  drawOffers();
 };
 
 const onClearButtonClick = (evt) => {

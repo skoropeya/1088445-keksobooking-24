@@ -20,6 +20,8 @@ const OFFER_COUNT = 10;
 
 const address = formNotice.querySelector('#address');
 
+let firstOffers;
+
 const map = L.map('map-canvas');
 
 const mainPinIcon = L.icon({
@@ -84,7 +86,7 @@ const drawMap = () => {
   mainPinMarker.addTo(map);
 };
 
-const drawOffers = (offers) => {
+const drawOffers = (offers = firstOffers) => {
   markerGroup.clearLayers();
 
   offers.slice(0, OFFER_COUNT).forEach((offerItem) => {
@@ -108,6 +110,9 @@ map.on('load', () => {
   makeFormActive(formNotice);
 
   getData( (offers) => {
+
+    firstOffers = offers.slice(0, OFFER_COUNT);
+
     drawOffers(offers);
     makeFormActive(formFilters);
 
