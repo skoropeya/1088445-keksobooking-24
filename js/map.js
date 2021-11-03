@@ -1,4 +1,4 @@
-import {formNotice, formFilters, makeFormActive} from './forms.js';
+import {makeFormActive} from './forms.js';
 import {
   applyFilters,
   setFilterTypeChange,
@@ -10,14 +10,14 @@ import {
 import {createOfferElement} from './generate-elements.js';
 import {getData} from './api.js';
 import {showAlert} from './utils.js';
-import {debounce} from './utils/debounce.js';
 
 const START_LAT = 35.67;
 const START_LNG = 139.75;
 const SCALE = 12;
-
 const OFFER_COUNT = 10;
 
+const formNotice = document.querySelector('.ad-form');
+const formFilters = document.querySelector('.map__filters');
 const address = formNotice.querySelector('#address');
 
 let firstOffers;
@@ -116,26 +116,11 @@ map.on('load', () => {
     drawOffers(offers);
     makeFormActive(formFilters);
 
-    setFilterTypeChange(
-      debounce(() => {
-        drawOffers(applyFilters(offers));
-      }));
-    setFilterPriceChange(
-      debounce(() => {
-        drawOffers(applyFilters(offers));
-      }));
-    setFilterRoomsChange(
-      debounce(() => {
-        drawOffers(applyFilters(offers));
-      }));
-    setFilterGuestsChange(
-      debounce(() => {
-        drawOffers(applyFilters(offers));
-      }));
-    setFilterFeaturesChange(
-      debounce(() => {
-        drawOffers(applyFilters(offers));
-      }));
+    setFilterTypeChange( () => drawOffers(applyFilters(offers)));
+    setFilterPriceChange( () => drawOffers(applyFilters(offers)));
+    setFilterRoomsChange( () => drawOffers(applyFilters(offers)));
+    setFilterGuestsChange( () => drawOffers(applyFilters(offers)));
+    setFilterFeaturesChange( () => drawOffers(applyFilters(offers)));
 
   },  showAlert);
 });

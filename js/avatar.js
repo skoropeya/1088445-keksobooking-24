@@ -1,6 +1,6 @@
-import {formNotice} from './forms.js';
-
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const formNotice = document.querySelector('.ad-form');
 const chooserAvatar = formNotice.querySelector('#avatar');
 const previewAvatar = formNotice.querySelector('.ad-form-header__preview img');
 

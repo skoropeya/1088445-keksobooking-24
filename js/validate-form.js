@@ -1,7 +1,4 @@
-// import {formNotice} from './forms.js';
-
 const formNotice = document.querySelector('.ad-form');
-
 const type = formNotice.querySelector('#type');
 const price = formNotice.querySelector('#price');
 const roomNumber = formNotice.querySelector('#room_number');
