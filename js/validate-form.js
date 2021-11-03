@@ -5,6 +5,11 @@ const roomNumber = formNotice.querySelector('#room_number');
 const capacity = formNotice.querySelector('#capacity');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
+const chooserAvatar = formNotice.querySelector('#avatar');
+const previewAvatar = formNotice.querySelector('.ad-form-header__preview img');
+const previewAvatarSrc = previewAvatar.src;
+const chooserPhoto = formNotice.querySelector('#images');
+const previewPhoto = formNotice.querySelector('.ad-form__photo');
 
 const MIN_PRICE = {
   'palace': 10000,
@@ -19,6 +24,40 @@ const ROOM_CAPACITY = {
   2: [1, 2],
   3: [1, 2, 3],
   100: [0],
+};
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const checkTypeFile = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some( (typeFile) => fileName.endsWith(typeFile));
+};
+
+const onAvatarChange = () => {
+  const file = chooserAvatar.files[0];
+
+  if (checkTypeFile(file)) {
+    previewAvatar.src = URL.createObjectURL(file);
+  }
+};
+
+const clearAvatar = () => {
+  previewAvatar.src = previewAvatarSrc;
+};
+
+const onPhotoChange = () => {
+  const file = chooserPhoto.files[0];
+
+  if (checkTypeFile(file)) {
+    previewPhoto.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+    previewPhoto.style.backgroundSize = 'contain';
+    previewPhoto.style.backgroundRepeat = 'no-repeat';
+    previewPhoto.style.backgroundPosition = 'center';
+  }
+};
+
+const clearPhoto = () => {
+  previewPhoto.style.backgroundImage = 'none';
 };
 
 const onTypeChange = () => {
@@ -75,6 +114,8 @@ const setHandlers = () => {
   timeOut.addEventListener('change', onTimeOutChange);
   roomNumber.addEventListener('change', onRoomsCapacityChange);
   capacity.addEventListener('change', onRoomsCapacityChange);
+  chooserAvatar.addEventListener('change', onAvatarChange);
+  chooserPhoto.addEventListener('change', onPhotoChange);
 };
 
 const removeHandlers = () => {
@@ -83,6 +124,8 @@ const removeHandlers = () => {
   timeOut.removeEventListener('change', onTimeOutChange);
   roomNumber.removeEventListener('change', onRoomsCapacityChange);
   capacity.removeEventListener('change', onRoomsCapacityChange);
+  chooserAvatar.removeEventListener('change', onAvatarChange);
+  chooserPhoto.removeEventListener('change', onPhotoChange);
 };
 
-export {setHandlers, removeHandlers};
+export {setHandlers, removeHandlers, clearPhoto, clearAvatar};

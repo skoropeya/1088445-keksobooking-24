@@ -9,7 +9,7 @@ import {
 } from './filter.js';
 import {createOfferElement} from './generate-elements.js';
 import {getData} from './api.js';
-import {showAlert} from './utils.js';
+import {showAlert} from './utils/show-alert.js';
 
 const START_LAT = 35.67;
 const START_LNG = 139.75;
