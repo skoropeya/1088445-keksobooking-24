@@ -1,4 +1,4 @@
-import {showPopup} from './utils.js';
+import {showPopup} from './utils/show-popup.js';
 import {sendData} from './api.js';
 import {setMainPinMarker, setStartAddress, drawOffers} from './map.js';
 import {setHandlers, removeHandlers} from './validate-form.js';
