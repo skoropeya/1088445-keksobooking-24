@@ -1,15 +1,28 @@
-import {formNotice, makeFormActive} from './forms.js';
+import {makeFormActive} from './forms.js';
+import {
+  applyFilters,
+  setFilterTypeChange,
+  setFilterPriceChange,
+  setFilterRoomsChange,
+  setFilterGuestsChange,
+  setFilterFeaturesChange
+} from './filter.js';
 import {createOfferElement} from './generate-elements.js';
+import {getData} from './api.js';
+import {showAlert} from './utils.js';
 
 const START_LAT = 35.67;
 const START_LNG = 139.75;
 const SCALE = 12;
+const OFFER_COUNT = 10;
 
+const formNotice = document.querySelector('.ad-form');
+const formFilters = document.querySelector('.map__filters');
 const address = formNotice.querySelector('#address');
 
-const map = L.map('map-canvas').on('load', () => {
-  makeFormActive(formNotice);
-});
+let firstOffers;
+
+const map = L.map('map-canvas');
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -36,6 +49,8 @@ const mainPinMarker = L.marker(
     const {lat, lng} = evt.target.getLatLng();
     address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   });
+
+const markerGroup = L.layerGroup().addTo(map);
 
 const setStartAddress = () => {
   address.value = `${START_LAT.toFixed(5)}, ${START_LNG.toFixed(5)}`;
@@ -71,8 +86,10 @@ const drawMap = () => {
   mainPinMarker.addTo(map);
 };
 
-const drawOffers = (offers) => {
-  offers.forEach((offerItem) => {
+const drawOffers = (offers = firstOffers) => {
+  markerGroup.clearLayers();
+
+  offers.slice(0, OFFER_COUNT).forEach((offerItem) => {
     const offerLat = offerItem.location.lat;
     const offerLng = offerItem.location.lng;
 
@@ -85,8 +102,27 @@ const drawOffers = (offers) => {
         icon: pinIcon,
       },
     );
-    pinMarker.addTo(map).bindPopup(createOfferElement(offerItem));
+    pinMarker.addTo(markerGroup).bindPopup(createOfferElement(offerItem));
   });
 };
+
+map.on('load', () => {
+  makeFormActive(formNotice);
+
+  getData( (offers) => {
+
+    firstOffers = offers.slice(0, OFFER_COUNT);
+
+    drawOffers(offers);
+    makeFormActive(formFilters);
+
+    setFilterTypeChange( () => drawOffers(applyFilters(offers)));
+    setFilterPriceChange( () => drawOffers(applyFilters(offers)));
+    setFilterRoomsChange( () => drawOffers(applyFilters(offers)));
+    setFilterGuestsChange( () => drawOffers(applyFilters(offers)));
+    setFilterFeaturesChange( () => drawOffers(applyFilters(offers)));
+
+  },  showAlert);
+});
 
 export {drawMap, drawOffers, setMainPinMarker, setStartAddress};
