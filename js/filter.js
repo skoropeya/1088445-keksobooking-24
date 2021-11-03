@@ -1,5 +1,6 @@
-import {formFilters} from './forms.js';
+import {debounce} from './utils/debounce.js';
 
+const formFilters = document.querySelector('.map__filters');
 const filterType = formFilters.querySelector('#housing-type');
 const filterPrice = formFilters.querySelector('#housing-price');
 const filterRooms = formFilters.querySelector('#housing-rooms');
@@ -18,28 +19,28 @@ const selectedParams = {
 const setFilterTypeChange = (cb) => {
   filterType.addEventListener('change', () => {
     selectedParams.selectedType = filterType.value;
-    cb();
+    debounce(cb)();
   });
 };
 
 const setFilterPriceChange = (cb) => {
   filterPrice.addEventListener('change', () => {
     selectedParams.selectedPrice = filterPrice.value;
-    cb();
+    debounce(cb)();
   });
 };
 
 const setFilterRoomsChange = (cb) => {
   filterRooms.addEventListener('change', () => {
     selectedParams.selectedRooms = filterRooms.value;
-    cb();
+    debounce(cb)();
   });
 };
 
 const setFilterGuestsChange = (cb) => {
   filterGuests.addEventListener('change', () => {
     selectedParams.selectedGuests = filterGuests.value;
-    cb();
+    debounce(cb)();
   });
 };
 
@@ -52,7 +53,7 @@ const setFilterFeaturesChange = (cb) => {
       }
     });
     selectedParams.selectedFeatures = selected;
-    cb();
+    debounce(cb)();
   });
 };
 
@@ -65,18 +66,14 @@ const applyFilters = (offers) => {
 
   if (selectedParams.selectedPrice !== 'any') {
     filteredOffers = filteredOffers.filter( (item) => {
-      let result = false;
       switch (selectedParams.selectedPrice) {
         case 'low':
-          if (item.offer.price < 10000) {result = true;}
-          break;
+          return item.offer.price < 10000;
         case 'middle':
-          if (item.offer.price >= 10000 && item.offer.price < 50000) {result = true;}
-          break;
+          return (item.offer.price >= 10000 && item.offer.price < 50000);
         case 'high':
-          if (item.offer.price >= 50000) {result = true;}
+          return item.offer.price >= 50000;
       }
-      return result;
     });
   }
 
@@ -90,24 +87,14 @@ const applyFilters = (offers) => {
 
   if (selectedParams.selectedFeatures.length) {
     filteredOffers = filteredOffers.filter( (item) => {
-      let result = false;
 
       if (item.offer.features) {
         const offerFeatures = item.offer.features;
         const selected = selectedParams.selectedFeatures;
-        let offerRank = 0;
 
-        selected.forEach((feature) => {
-          if (offerFeatures.includes(feature)) {
-            offerRank++;
-          }
-        });
-
-        if (selected.length === offerRank) {
-          result = true;
-        }
+        return selected.every((feature) => offerFeatures.includes(feature));
       }
-      return result;
+      return false;
     });
   }
 

@@ -79,9 +79,4 @@ const makeFormDisabled = (form) => {
   }
 };
 
-export {
-  formNotice,
-  formFilters,
-  makeFormActive,
-  makeFormDisabled
-};
+export {makeFormActive, makeFormDisabled};
