@@ -7,6 +7,7 @@ const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
 const chooserAvatar = formNotice.querySelector('#avatar');
 const previewAvatar = formNotice.querySelector('.ad-form-header__preview img');
+const previewAvatarSrc = previewAvatar.src;
 const chooserPhoto = formNotice.querySelector('#images');
 const previewPhoto = formNotice.querySelector('.ad-form__photo');
 
@@ -40,6 +41,10 @@ const onAvatarChange = () => {
   }
 };
 
+const clearAvatar = () => {
+  previewAvatar.src = previewAvatarSrc;
+};
+
 const onPhotoChange = () => {
   const file = chooserPhoto.files[0];
 
@@ -49,6 +54,10 @@ const onPhotoChange = () => {
     previewPhoto.style.backgroundRepeat = 'no-repeat';
     previewPhoto.style.backgroundPosition = 'center';
   }
+};
+
+const clearPhoto = () => {
+  previewPhoto.style.backgroundImage = 'none';
 };
 
 const onTypeChange = () => {
@@ -119,4 +128,4 @@ const removeHandlers = () => {
   chooserPhoto.removeEventListener('change', onPhotoChange);
 };
 
-export {setHandlers, removeHandlers};
+export {setHandlers, removeHandlers, clearPhoto, clearAvatar};
