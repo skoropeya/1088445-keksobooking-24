@@ -128,4 +128,4 @@ const removeHandlers = () => {
   chooserPhoto.removeEventListener('change', onPhotoChange);
 };
 
-export {setHandlers, removeHandlers, clearPhoto, clearAvatar};
+export {setHandlers, removeHandlers, clearPhoto, clearAvatar, onTypeChange};

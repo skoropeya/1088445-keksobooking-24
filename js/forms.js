@@ -1,7 +1,7 @@
 import {showPopup} from './utils/show-popup.js';
 import {sendData} from './api.js';
 import {setMainPinMarker, setStartAddress, drawOffers} from './map.js';
-import {setHandlers, removeHandlers, clearPhoto, clearAvatar} from './validate-form.js';
+import {setHandlers, removeHandlers, clearPhoto, clearAvatar, onTypeChange} from './validate-form.js';
 
 const formNotice = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
@@ -15,6 +15,7 @@ const onClearForm = () => {
   drawOffers();
   clearPhoto();
   clearAvatar();
+  onTypeChange();
 };
 
 const onClearButtonClick = (evt) => {
