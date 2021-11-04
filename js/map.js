@@ -10,6 +10,7 @@ import {
 import {createOfferElement} from './generate-elements.js';
 import {getData} from './api.js';
 import {showAlert} from './utils/show-alert.js';
+import {debounce} from './utils/debounce.js';
 
 const START_LAT = 35.67;
 const START_LNG = 139.75;
@@ -116,11 +117,21 @@ map.on('load', () => {
     drawOffers(offers);
     makeFormActive(formFilters);
 
-    setFilterTypeChange( () => drawOffers(applyFilters(offers)));
-    setFilterPriceChange( () => drawOffers(applyFilters(offers)));
-    setFilterRoomsChange( () => drawOffers(applyFilters(offers)));
-    setFilterGuestsChange( () => drawOffers(applyFilters(offers)));
-    setFilterFeaturesChange( () => drawOffers(applyFilters(offers)));
+    setFilterTypeChange(
+      debounce( () => drawOffers(applyFilters(offers))),
+    );
+    setFilterPriceChange(
+      debounce( () => drawOffers(applyFilters(offers))),
+    );
+    setFilterRoomsChange(
+      debounce( () => drawOffers(applyFilters(offers))),
+    );
+    setFilterGuestsChange(
+      debounce( () => drawOffers(applyFilters(offers))),
+    );
+    setFilterFeaturesChange(
+      debounce( () => drawOffers(applyFilters(offers))),
+    );
 
   },  showAlert);
 });

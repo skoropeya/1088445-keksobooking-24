@@ -3,17 +3,18 @@ const showPopup = (status) => {
   const popup = templatePopup.cloneNode(true);
   document.body.insertAdjacentElement('beforeend', popup);
 
+  const onKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      popup.remove();
+      document.removeEventListener('keydown', onKeydown);
+    }
+  };
+
+  document.addEventListener('keydown', onKeydown);
+
   document.addEventListener('click',
     () => popup.remove(),
-    {once: true},
-  );
-
-  document.addEventListener('keydown',
-    (evt) => {
-      if (evt.key === 'Escape') {
-        popup.remove();
-      }
-    },
     {once: true},
   );
 };

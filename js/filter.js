@@ -1,5 +1,3 @@
-import {debounce} from './utils/debounce.js';
-
 const formFilters = document.querySelector('.map__filters');
 const filterType = formFilters.querySelector('#housing-type');
 const filterPrice = formFilters.querySelector('#housing-price');
@@ -19,28 +17,28 @@ const selectedParams = {
 const setFilterTypeChange = (cb) => {
   filterType.addEventListener('change', () => {
     selectedParams.selectedType = filterType.value;
-    debounce(cb)();
+    cb();
   });
 };
 
 const setFilterPriceChange = (cb) => {
   filterPrice.addEventListener('change', () => {
     selectedParams.selectedPrice = filterPrice.value;
-    debounce(cb)();
+    cb();
   });
 };
 
 const setFilterRoomsChange = (cb) => {
   filterRooms.addEventListener('change', () => {
     selectedParams.selectedRooms = filterRooms.value;
-    debounce(cb)();
+    cb();
   });
 };
 
 const setFilterGuestsChange = (cb) => {
   filterGuests.addEventListener('change', () => {
     selectedParams.selectedGuests = filterGuests.value;
-    debounce(cb)();
+    cb();
   });
 };
 
@@ -53,7 +51,7 @@ const setFilterFeaturesChange = (cb) => {
       }
     });
     selectedParams.selectedFeatures = selected;
-    debounce(cb)();
+    cb();
   });
 };
 

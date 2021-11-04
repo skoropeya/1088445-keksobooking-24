@@ -3,9 +3,8 @@ const getData = (onSuccess, onError) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        throw new Error('Данные с сервера не загружены.');
       }
+      throw new Error('Данные с сервера не загружены.');
     })
     .then((data) => {
       onSuccess(data);
